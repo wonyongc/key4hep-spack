@@ -53,11 +53,11 @@ if __name__ == "__main__":
     add_latest_commit("k4fwcore", "key4hep/k4fwcore", date=date)
     add_latest_commit("k4projecttemplate", "key4hep/k4-project-template", date=date)
     add_latest_commit("k4clue", "key4hep/k4clue",
-                         giturl="https://api.github.com/repos/%s/commits/main", date=date)
+                         date=date)
     add_latest_commit("k4gen", "hep-fcc/k4Gen",
-                         giturl="https://api.github.com/repos/%s/commits/main", date=date)
+                          date=date)
     add_latest_commit("k4simgeant4", "hep-fcc/k4simgeant4",
-                         giturl="https://api.github.com/repos/%s/commits/main", date=date)
+                          date=date)
     add_latest_commit("delphes", "delphes/delphes", date=date)
     add_latest_commit("fccsw", "hep-fcc/fccsw", date=date)
     # todo: figure out the api for the cern gitlab instance
@@ -67,9 +67,9 @@ if __name__ == "__main__":
     add_latest_commit("dual-readout", "hep-fcc/dual-readout", date=date)
     add_latest_commit("fccanalyses", "hep-fcc/fccanalyses", date=date)
     add_latest_commit("fccdetectors", "hep-fcc/fccdetectors",
-                         giturl="https://api.github.com/repos/%s/commits/main", date=date)
+                          date=date)
     add_latest_commit("k4reccalorimeter", "hep-fcc/k4reccalorimeter",
-                         giturl="https://api.github.com/repos/%s/commits/main", date=date)
+                          date=date)
     add_latest_commit("cepcsw", "cepc/cepcsw", date=date)
     add_latest_commit("k4lcioreader", "key4hep/k4LCIOReader", date=date)
     add_latest_commit("aidatt", "aidasoft/aidatt", date=date)
