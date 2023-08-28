@@ -57,7 +57,7 @@ if __name__ == "__main__":
     add_latest_commit("k4gen", "hep-fcc/k4Gen",
                           date=date)
     add_latest_commit("k4simgeant4", "hep-fcc/k4simgeant4",
-                          date=date)
+                          date='2023-05-15')
     add_latest_commit("delphes", "delphes/delphes", date=date)
     add_latest_commit("fccsw", "hep-fcc/fccsw", date=date)
     # todo: figure out the api for the cern gitlab instance
