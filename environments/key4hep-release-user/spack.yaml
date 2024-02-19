@@ -3,7 +3,7 @@ spack:
   - ../key4hep-common/config.yaml
   - ../key4hep-common/packages.yaml
   - ../key4hep-common/compilers.yaml
-  view: false
+  view: true
   upstreams:
     spack-instance-6:
       install_tree: /cvmfs/sw.hsf.org/spackages6/
