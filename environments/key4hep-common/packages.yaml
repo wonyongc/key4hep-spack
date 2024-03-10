@@ -19,7 +19,7 @@ packages:
     require: +cxx+hl
   # https://github.com/key4hep/key4hep-spack/issues/517
   lccd:
-    require: +conddbmysql cxxstd=20
+    require: +conddbmysql
   llvm:
     variants: ~flang~lldb~lld~mlir~internal_unwind~polly~limomptarget~omp_debug~gold~split_dwarf~llvm_dylib~link_llvm_dylib~omp_tsan~omp_as_runtime~code_signing~python~version_suffix~shlib_symbol_version~z3~zstd compiler-rt="none" libcxx="none" targets="x86"
   marlin:
@@ -84,7 +84,7 @@ packages:
   whizard:
     require: ~fastjet~latex+lcio~lhapdf+openloops~openmp+pythia8 hepmc=3 cxxstd=20
   k4simdelphes:
-    require: ~delphes_hepmc cxxstd=20
+    require: ~delphes_hepmc
   evtgen:
     require: +photos
   photos:
