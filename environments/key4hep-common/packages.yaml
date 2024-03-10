@@ -23,7 +23,7 @@ packages:
   llvm:
     variants: ~flang~lldb~lld~mlir~internal_unwind~polly~limomptarget~omp_debug~gold~split_dwarf~llvm_dylib~link_llvm_dylib~omp_tsan~omp_as_runtime~code_signing~python~version_suffix~shlib_symbol_version~z3~zstd compiler-rt="none" libcxx="none" targets="x86"
   marlin:
-    require: +lccd cxxstd=20
+    require: +lccd
   podio:
     require: +rntuple+rpath+sio
   py-numpy:
@@ -182,7 +182,7 @@ packages:
   marlinreco:
     variants: build_type=Release cxxstd=20
   marlintrk:
-    variants: build_type=Release cxxstd=20
+    variants: build_type=Release
   marlintrkprocessors:
     variants: build_type=Release cxxstd=20
   marlinutil:
@@ -194,8 +194,8 @@ packages:
   pandoraanalysis:
     variants: build_type=Release cxxstd=20
   physsim:
-    variants: build_type=Release cxxstd=20
+    variants: build_type=Release
   raida:
-    variants: build_type=Release cxxstd=20
+    variants: build_type=Release
   sio:
     variants: build_type=Release cxxstd=20
