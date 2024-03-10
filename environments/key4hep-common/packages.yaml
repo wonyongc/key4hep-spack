@@ -95,7 +95,7 @@ packages:
     require: ~libunwind
   all:
     target: [x86_64]
-    variants: cxxstd=20
+    variants: build_type=Release cxxstd=20
     buildable: true
     compiler: []
 
@@ -110,11 +110,11 @@ packages:
   cepcsw:
     variants: build_type=Release cxxstd=20
   clicperformance:
-    variants: build_type=Release cxxstd=20
+    variants: build_type=Release
   conformaltracking:
-    variants: build_type=Release cxxstd=20
+    variants: build_type=Release
   ddkaltest:
-    variants: build_type=Release cxxstd=20
+    variants: build_type=Release
   ddmarlinpandora:
     variants: build_type=Release cxxstd=20
   delphes:
