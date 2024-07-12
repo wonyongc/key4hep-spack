@@ -3,13 +3,14 @@ spack:
     - compilers.yaml
   config:
     install_tree:
-      root: /cvmfs/sw.hsf.org/share
+      # root: /cvmfs/sw.hsf.org/share
+      root: /home/wonyongc/src/fcc/share
       projections:
         all: "data/{name}-{version}-{hash}"
   view: false
   packages:
     all:
-      target: [broadwell]
+      # target: [broadwell]
       variants: build_type=Release
   specs:
   - geant4-data@10.7.0
