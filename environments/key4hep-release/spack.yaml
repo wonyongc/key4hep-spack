@@ -1,5 +1,5 @@
 spack:
-  view: false
+  view: true
   include:
   - ../key4hep-common/config.yaml
   - ../key4hep-common/packages.yaml
