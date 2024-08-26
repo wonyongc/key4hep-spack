@@ -8,8 +8,8 @@ packages:
     require: +gssapi
   dd4hep:
     require: +edm4hep+lcio+xercesc+hepmc3
-  gaudi:
-    require: +aida+cppunit+examples+gaudialg+gperftools+heppdt+jemalloc+unwind+xercesc
+  # gaudi:
+    # require: +aida+cppunit+examples+gaudialg+gperftools+heppdt+jemalloc+unwind+xercesc
   gdb:
     require: +python+tui+source-highlight~debuginfod
   # https://github.com/key4hep/key4hep-spack/pull/501
@@ -22,10 +22,10 @@ packages:
     require: +conddbmysql
   llvm:
     variants: ~flang~lldb~lld~mlir~internal_unwind~polly~limomptarget~omp_debug~gold~split_dwarf~llvm_dylib~link_llvm_dylib~omp_tsan~omp_as_runtime~code_signing~python~version_suffix~shlib_symbol_version~z3~zstd compiler-rt="none" libcxx="none" targets="x86"
-  marlin:
-    require: +lccd
+  # marlin:
+    # require: +lccd
   podio:
-    require: +rntuple+rpath+sio
+    require: +rntuple+sio
   py-numpy:
     require: ^openblas
   # https://github.com/key4hep/key4hep-spack/issues/474
