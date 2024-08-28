@@ -11,3 +11,4 @@ spack:
   - ../..
   specs:
   - key4hep-stack
+  develop: {}

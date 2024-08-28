@@ -65,7 +65,7 @@ class Key4hepStack(BundlePackage, Key4hepPackage):
     # depends_on("k4simdelphes")
     # depends_on("k4simgeant4")
     # depends_on("kkmcee")
-    depends_on("k4geo")
+    # depends_on("k4geo")
     depends_on("podio")
     depends_on("python~debug")
     # depends_on("whizard")
