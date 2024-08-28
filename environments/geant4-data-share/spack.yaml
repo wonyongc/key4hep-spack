@@ -4,7 +4,7 @@ spack:
   config:
     install_tree:
       # root: /cvmfs/sw.hsf.org/share
-      root: /home/wonyongc/src/fcc/share
+      root: /home/wonyongc/src/hep/key4hep-spack/share
       projections:
         all: "data/{name}-{version}-{hash}"
   view: false
