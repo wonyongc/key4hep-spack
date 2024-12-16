@@ -3,6 +3,7 @@
 #
 # SPDX-License-Identifier: (Apache-2.0 OR MIT)
 
+from spack.package import *
 from spack.pkg.k4.key4hep_stack import Ilcsoftpackage
 
 
@@ -16,6 +17,11 @@ class Gear(CMakePackage, Ilcsoftpackage):
     maintainers = ["vvolkl"]
 
     version("master", branch="master")
+
+    version(
+        "1.9.3",
+        sha256="c6e9075dc6be63d9e3019ce8c636adfa4be2bffb8120b1d9d054a0830724aaed",
+    )
     version(
         "1.9.2",
         sha256="7ea9e13046aef53f12e4071e9937378c93f17fe70f8b673e91bbc3a81385742d",

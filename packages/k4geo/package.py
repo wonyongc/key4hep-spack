@@ -3,6 +3,8 @@
 #
 # SPDX-License-Identifier: (Apache-2.0 OR MIT)
 
+from spack.package import *
+
 
 class K4geo(CMakePackage):
     """DD4hep geometry models for future colliders."""
@@ -17,13 +19,16 @@ class K4geo(CMakePackage):
 
     version("main", branch="main")
     version(
-        "0.20",
-        url="https://github.com/key4hep/k4geo/archive/v00-20-00.tar.gz",
+        "0.21",
+        sha256="0451e532fd22b2b9ea93a71f7036ea6de44386ecb10a84f28bc1d9fd557c6ad1",
+        url="https://github.com/key4hep/k4geo/archive/refs/tags/v00-21.tar.gz",
+    )
+    version(
+        "0.20.0",
         sha256="40d5842faa4767cc1b8c19f9b710713ba6a128ecd94fb9682e3afe3145e20511",
     )
     version(
-        "0.19",
-        url="https://github.com/key4hep/k4geo/archive/v00-19-00.tar.gz",
+        "0.19.0",
         sha256="6e8101e5991870484988f9fcb0299076a30f9b5f37e4e51141e50dfd30f32314",
     )
 
@@ -60,8 +65,7 @@ class K4geo(CMakePackage):
         env.set("K4GEO", self.prefix.share.k4geo)
         env.set("lcgeo_DIR", self.prefix.share.k4geo)
         env.set("k4geo_DIR", self.prefix.share.k4geo)
-        env.prepend_path("LD_LIBRARY_PATH", self.spec["k4geo"].prefix.lib)
-        env.prepend_path("LD_LIBRARY_PATH", self.spec["k4geo"].prefix.lib64)
+        env.prepend_path("LD_LIBRARY_PATH", self.spec["k4geo"].libs.directories[0])
 
     def setup_build_environment(self, env):
         env.set("LCGEO", self.prefix.share.k4geo)
@@ -69,11 +73,16 @@ class K4geo(CMakePackage):
         env.prepend_path("LD_LIBRARY_PATH", self.spec["lcio"].libs.directories[0])
         env.prepend_path("LD_LIBRARY_PATH", self.prefix.lib)
 
+    def setup_dependent_run_environment(self, env, dependent_spec):
+        env.set("LCGEO", self.prefix.share.k4geo)
+        env.set("lcgeo_DIR", self.prefix.share.k4geo)
+        env.prepend_path("LD_LIBRARY_PATH", self.spec["k4geo"].libs.directories[0])
+        env.prepend_path("LD_LIBRARY_PATH", self.spec["lcio"].libs.directories[0])
+
     def setup_dependent_build_environment(self, env, dependent_spec):
         env.set("LCGEO", self.prefix.share.k4geo)
         env.set("lcgeo_DIR", self.prefix.share.k4geo)
-        env.prepend_path("LD_LIBRARY_PATH", self.spec["k4geo"].prefix.lib)
-        env.prepend_path("LD_LIBRARY_PATH", self.spec["k4geo"].prefix.lib64)
+        env.prepend_path("LD_LIBRARY_PATH", self.spec["k4geo"].libs.directories[0])
         env.prepend_path("LD_LIBRARY_PATH", self.spec["lcio"].libs.directories[0])
 
     # dd4hep tests need to run after install step:

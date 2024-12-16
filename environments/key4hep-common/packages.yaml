@@ -12,6 +12,8 @@ packages:
     buildable: true
   curl:
     require: +gssapi
+  ddmarlinpandora:
+    require: +monitoring
   dd4hep:
     require: +edm4hep+lcio+xercesc+hepmc3
   gaudi:
@@ -26,8 +28,12 @@ packages:
   hepmc3:
     require: +python+rootio
   # https://github.com/key4hep/key4hep-spack/issues/517
+  larcontent:
+    require: +monitoring
   lccd:
     require: +conddbmysql
+  lccontent:
+    require: +monitoring
   llvm:
     variants: ~flang~lldb~lld~lua~mlir~internal_unwind~polly~libomptarget~libomptarget_debug~gold~split_dwarf~llvm_dylib~link_llvm_dylib~omp_tsan~omp_as_runtime~code_signing~python~version_suffix~shlib_symbol_version~z3~zstd compiler-rt="none" libcxx="none" targets="x86"
   marlin:
@@ -35,7 +41,7 @@ packages:
   # madgraph5amc:
     # require: '@3: +pythia8'
   podio:
-    require: +rntuple+sio
+    require: +datasource+rntuple+rpath+sio
   py-numpy:
     require: ^openblas
   # https://github.com/key4hep/key4hep-spack/issues/474
@@ -43,7 +49,7 @@ packages:
     require: backend=qt5agg
   # Requested by Thomas Madlener for DESY, without CUDA and before v2
   py-torch:
-    require: ~cuda
+    require: ~cuda+custom-protobuf
   xrootd:
     require: +krb5 cxxstd=20
 
@@ -62,6 +68,11 @@ packages:
     buildable: False
     externals:
     - spec: openglu@99
+      prefix: /usr
+  mesa:
+    buildable: False
+    externals:
+    - spec: mesa@99
       prefix: /usr
   mesa-glu:
     buildable: False
@@ -86,7 +97,7 @@ packages:
 
   # The version seems to be necessary, otherwise it defaults to an older version
   root:
-    require: '@6.32: +davix+fftw+gsl+math+minuit+mlp+opengl~postgres~pythia8+python+r+roofit+root7+rpath~shadow+sqlite+ssl+tbb+threads+tmva+tmva-cpu+unuran+vc+vdt+x+xml+xrootd cxxstd=20'
+    require: '@6.32: +davix+fftw+gsl+math+minuit+mlp+opengl~postgres~pythia8+python+r+roofit+root7+rpath~shadow+spectrum+sqlite+ssl+tbb+threads+tmva+tmva-cpu+unuran+vc+vdt+x+xml+xrootd cxxstd=20'
   py-tensorflow:
     require: ~cuda~nccl
   k4simdelphes:
@@ -115,11 +126,8 @@ packages:
   sio:
     variants: cxxstd=20
 
-  # onnx and py-onnx should have the same versions
-  # And all should be consistent based on this table:
+  # The versions of py-onnx and py-onnxruntime should be consistent based on this table
   # https://onnxruntime.ai/docs/reference/compatibility.html#onnx-opset-support
-  onnx:
-    require: '@1.15.0'
   py-onnx:
     require: '@1.15.0'
   py-onnxruntime:

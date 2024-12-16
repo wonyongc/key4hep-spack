@@ -3,14 +3,15 @@
 #
 # SPDX-License-Identifier: (Apache-2.0 OR MIT)
 
+from spack.package import *
+
 
 class K4generatorsconfig(CMakePackage):
-    """DD4hep geometry models for future colliders."""
+    """A python based module for the automatic generation of inputfiles for Monte-Carlo(MC) generators."""
 
     homepage = "https://github.com/key4hep/k4GeneratorsConfig"
     git = "https://github.com/key4hep/k4GeneratorsConfig.git"
-    # To be changed once there is a first version
-    url = "https://github.com/key4hep/k4GeneratorsConfig.git/archive/v00-16-07.tar.gz"
+    url = "https://github.com/key4hep/k4GeneratorsConfig/archive/refs/tags/v0.1.tar.gz"
 
     generator = "Ninja"
 
@@ -18,11 +19,17 @@ class K4generatorsconfig(CMakePackage):
 
     version("main", branch="main")
 
+    version(
+        "0.1", sha256="0309f25bc4149de8c17a4615146074ece46f6f384a152e0fd05853ec652d9ad4"
+    )
+
     depends_on("podio")
     depends_on("edm4hep")
     depends_on("hepmc3")
     depends_on("heppdt")
     depends_on("pythia8")
+    depends_on("python")
+    depends_on("py-pyyaml")
 
     def cmake_args(self):
         args = []
@@ -32,4 +39,6 @@ class K4generatorsconfig(CMakePackage):
         return args
 
     def setup_run_environment(self, env):
-        env.set("K4GENERATORSCONFIG", self.prefix.share.k4geo)
+        env.set("K4GENERATORSCONFIG", self.prefix.share.k4GeneratorsConfig)
+        env.prepend_path("PYTHONPATH", self.prefix.python)
+        env.prepend_path("PATH", self.prefix.bin)

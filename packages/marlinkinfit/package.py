@@ -3,6 +3,7 @@
 #
 # SPDX-License-Identifier: (Apache-2.0 OR MIT)
 
+from spack.package import *
 from spack.pkg.k4.key4hep_stack import Ilcsoftpackage
 
 
@@ -43,3 +44,5 @@ class Marlinkinfit(CMakePackage, Ilcsoftpackage):
 
     def setup_run_environment(self, env):
         env.prepend_path("MARLIN_DLL", self.prefix.lib + "/libMarlinKinfit.so")
+        # Make it usable from ROOT
+        env.prepend_path("ROOT_LIBRARY_PATH", self.prefix.lib)

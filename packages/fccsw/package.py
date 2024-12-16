@@ -1,5 +1,5 @@
+from spack.package import *
 from spack.pkg.k4.key4hep_stack import Key4hepPackage
-from spack.pkg.k4.key4hep_stack import k4_setup_env_for_framework_tests
 
 
 class Fccsw(CMakePackage, Key4hepPackage):
@@ -12,6 +12,12 @@ class Fccsw(CMakePackage, Key4hepPackage):
     maintainers = ["vvolkl"]
 
     version("master", branch="master")
+
+    version(
+        "1.0pre10",
+        sha256="7d7cd655a557b272e816b399c068fa5e6ee1c72491bb7e0dffa552557b949cbf",
+    )
+
     version("1.0pre09", tag="v1.0pre09")
     version("1.0pre08", tag="v1.0pre08")
     version("1.0pre07", tag="v1.0pre07")
@@ -28,11 +34,9 @@ class Fccsw(CMakePackage, Key4hepPackage):
     depends_on("k4geo")
     depends_on("fccanalyses")
     depends_on("root")
-    depends_on("py-six", type=("build", "run"))
 
     def cmake_args(self):
         args = []
-        # C++ Standard
         args.append(
             f"-DCMAKE_CXX_STANDARD={self.spec['root'].variants['cxxstd'].value}"
         )
@@ -48,4 +52,3 @@ class Fccsw(CMakePackage, Key4hepPackage):
 
     def setup_build_environment(self, env):
         self.setup_run_environment(env)
-        # k4_setup_env_for_framework_tests(self.spec, env)

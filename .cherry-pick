@@ -1,14 +1,24 @@
 git remote add jmcarcell https://github.com/jmcarcell/spack || true
 git fetch jmcarcell -q
 
-# add a recent version of madgraph, remove when https://github.com/spack/spack/pull/41128 is merged
+# Hardcode CMAKE_INSTALL_LIBDIR to lib. This is needed for AlmaLinux 9 where
+# CMAKE_INSTALL_LIBDIR gets chosen as lib64 and this causes problems in some
+# packages that expect lib. Since spack installs each package to its own prefix
+# we don't need to worry about multilib environments
+git cherry-pick 42c070632bcb0f8333bc029e17a53646d9589d7e -X theirs --no-commit
+
+# Because the patch above and py-onnx being a python package, it will try to find
+# protobuf in CMAKE_INSTALL_LIBDIR which is lib64 so a symlink is created here
+git cherry-pick 3ec184fad8582cc501f55e0ea0b0f6b3fb9b70bf -X theirs --no-commit
+
+# add a recent version of madgraph, remove!
 curl -s https://patch-diff.githubusercontent.com/raw/spack/spack/pull/41128.diff | patch -p1
 
 # add vdt for CPATH, needed for podio+rntuple
 git cherry-pick f97fabc3ff12527e5220ea6917719a73f8bd4315 -X theirs --no-commit
 
 # podio: add rpath, remove when https://github.com/spack/spack/pull/42844 is merged
-git cherry-pick 4d3b81d73b9dcbbe176d6baf3c00a4032307f6a8 -X theirs --no-commit
+curl -s https://patch-diff.githubusercontent.com/raw/spack/spack/pull/42844.diff | patch -p1
 
 # geant4 twisted tubes: remove when https://github.com/spack/spack/pull/45368 is merged or after 11.2.2
 # curl -s https://patch-diff.githubusercontent.com/raw/spack/spack/pull/45368.diff | patch -p1
@@ -19,43 +29,50 @@ git cherry-pick 4d3b81d73b9dcbbe176d6baf3c00a4032307f6a8 -X theirs --no-commit
 # Both geant4 changes in a single commit
 git cherry-pick c8191268c3ea4aca6e870ad40d695e92f94d0e47 -X theirs --no-commit
 
-# sherpa v3: remove!
-curl -s https://patch-diff.githubusercontent.com/raw/spack/spack/pull/45101.diff | patch -p1
+# zziplib: add 0.13.78, remove!
+git cherry-pick db5538f5f12de8d1599ef4339e2dd1756d1230ad -X theirs --no-commit
 
-# gaudi: use fmt 10 for now, remove!
-# remember to fix the range before v40
+# pybind11: fix pkgconfig, remove!
+curl -s https://patch-diff.githubusercontent.com/raw/spack/spack/pull/46298.diff | patch -p1
 
-# py-onnx: make sure py-setuptools 64 and onwards is used for editable_mode
-git cherry-pick a8c4b3a03f0988cc201580f979980d61d3d5e417 -X theirs --no-commit
+# gaudi: add patches, remove!
+curl -s https://patch-diff.githubusercontent.com/raw/spack/spack/pull/46365.diff | patch -p1
 
-# xrootd: don't download from SLAC until the certificate issue is solved
-git cherry-pick afcd8b32383b1425062b25126890e12338d70e36 -X theirs --no-commit
+# py-awkward and py-awkward-cpp: fixes, remove!
+curl -s https://patch-diff.githubusercontent.com/raw/spack/spack/pull/46372.diff | patch -p1
 
-# root: Add version 6.32.04, remove!
-git cherry-pick b6a5e4f8eb6276a68d7d42cf14812397cf6d2743 -X theirs --no-commit
+# py-onnx: add fixes for GCC 14, remove!
+# curl -s https://patch-diff.githubusercontent.com/raw/spack/spack/pull/46390.diff | patch -p1
+git cherry-pick 096ab11961995ac8d69f7b177cbcadf618d3068e -X theirs --no-commit
 
-# acts: Add versions 36.0.0 and 36.1.0, remove when https://github.com/spack/spack/pull/45851 is merged
-git cherry-pick 5bab73925c6da457f2fdf5c7d8fbeb14ff6e2986 -X theirs --no-commit
+# texlive: add new versions, remove!
+git cherry-pick 5398b1be15245e1be480c5aa4706f57795208505 -X theirs --no-commit
 
-# sleef: Add the -fPIC flag
-git cherry-pick f4b2c42028405591cf44a2c5910840e894144f67 -X theirs --no-commit
+# texlive: fix mtxrun, remove!
+curl -s https://patch-diff.githubusercontent.com/raw/spack/spack/pull/46465.diff | patch -p1
 
-# poppler: fix URL, remove!
-git cherry-pick 8becc0ca3c86f1fa26593909da03effbc665c31c -X theirs --no-commit
+# py-onnx: add a patch for the standard, remove after 1.15.0
+git add .
+git cherry-pick 248a7c0f4894222bfcd0bb76b13a984c92d4c938 -X theirs --no-commit
 
-# texlive: clean up recipe, remove when https://github.com/spack/spack/pull/45863 is merged
-# git cherry-pick 4ab7f72041d49f947230df2aa6426b6e39069a3a -X theirs --no-commit
+# py-cython: add version 3.0.11, remove when https://github.com/spack/spack/pull/46772 is merged
+git cherry-pick 072d308c0b4b53c0d0528ee3a7e59de110133968 -X theirs --no-commit
+# py-lxml: add version 5.3.0, remove when https://github.com/spack/spack/pull/46771 is merged
+git cherry-pick 94ef87d013b3ea9627c1aa850b8929dbe217bf20 -X theirs --no-commit
 
-# whizard: add fix for hepmc3 3.3.10 or above, remove when https://github.com/spack/spack/pull/45862 is merged
-curl -s https://patch-diff.githubusercontent.com/raw/spack/spack/pull/45862.diff | patch -p1
+# madgraph5amc: add v3.5.6, remove!
+git cherry-pick 5777576e37ee28d674e2520d3f10b3f651a7680e -X theirs --no-commit
 
-# dd4hep: add patch not to install plugins at CMAKE_INSTALL_LIBDIR
-git cherry-pick 21c9d43cdbdb1de3164c1754696d74cb7fb448d9 -X theirs --no-commit
+# py-gevent: add a patch for cython 3.0.10 and 3.0.11, remove!
+git cherry-pick 06f21ae4e2499bccaa6c52359bafbb93c161944b -X theirs --no-commit
 
-if [[ "$(grep -E '^ID=' /etc/os-release)" = 'ID=ubuntu' && "$(grep -E 'VERSION_ID' /etc/os-release)" = 'VERSION_ID="22.04"' ]]; then
+# py-hepmc3: Extend python when the python bindings are enabled
+git cherry-pick 04b8b88bd6485d4cf01373ec9ccf18a49f30b34d -X theirs --no-commit
 
-  # patch to rename libz so texlive can be built
-  git cherry-pick f8c6f240ba9b99218eb72bfadce9f99952fec1de -X theirs --no-commit
-
-fi
-
+# Versions for the release, in order DD4hep and podio&edm4hep and LCIO
+git cherry-pick 43d1cdb0bd4780bff369dafa681a8a7939313784 -X theirs --no-commit
+git cherry-pick 5d9c534018593fdef5db1028c60026d26bf4d65b -X theirs --no-commit
+git cherry-pick be8112e1ff9dea12296bfafb341cc5953e72c415 -X theirs --no-commit
+git cherry-pick 1c6b6d0a0819409b75d7a59a90c3daf24fe80fee -X theirs --no-commit
+# delphes: Add version 3.5.1pre11
+git cherry-pick 1aa5c7450c5947abae090c7a89b64b1236e1a153 -X theirs --no-commit

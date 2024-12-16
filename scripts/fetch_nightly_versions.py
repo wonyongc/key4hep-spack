@@ -68,6 +68,11 @@ if __name__ == "__main__":
         "--extra-path",
         help="path to a yaml file with spack packages",
     )
+    parser.add_argument(
+        "--only-merge",
+        help="only merge the packages.yaml files",
+        action="store_true",
+    )
     # parser.add_argument(
     #     "--spack",
     #     help="path to the spack.yaml in the nightly environment",
@@ -128,6 +133,7 @@ if __name__ == "__main__":
         ("k4clue", "key4hep/k4clue"),
         ("k4edm4hep2lcioconv", "key4hep/k4edm4hep2lcioconv"),
         ("k4fwcore", "key4hep/k4fwcore"),
+        ("k4gaudipandora", "key4hep/k4gaudipandora"),
         ("k4gen", "hep-fcc/k4Gen"),
         ("k4generatorsconfig", "key4hep/k4GeneratorsConfig"),
         ("k4geo", "key4hep/k4geo"),
@@ -163,6 +169,8 @@ if __name__ == "__main__":
         ("raida", "ilcsoft/raida"),
         ("sio", "ilcsoft/sio"),
     ]:
+        if args.only_merge:
+            break
         gitlab = False
         if package == "opendatadetector":
             gitlab = "https://gitlab.cern.ch/api/v4/projects/%s/repository/commits"

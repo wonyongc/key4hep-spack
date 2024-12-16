@@ -3,7 +3,7 @@
 #
 # SPDX-License-Identifier: (Apache-2.0 OR MIT)
 
-
+from spack.package import *
 from spack.pkg.k4.key4hep_stack import Ilcsoftpackage
 
 
@@ -17,6 +17,10 @@ class Cedviewer(CMakePackage, Ilcsoftpackage):
     maintainers = ["vvolkl"]
 
     version("master", branch="master")
+    version(
+        "1.20",
+        sha256="e2b1b50b42be28aa28bbdba99e403e053a1aff7bcd7c76c6b7224768a3d28c68",
+    )
     version(
         "1.19.1",
         sha256="aaa5317ae35d11a2850d623667607fc130181ea500a596e3073f744deae0f8b6",

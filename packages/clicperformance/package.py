@@ -3,8 +3,8 @@
 #
 # SPDX-License-Identifier: (Apache-2.0 OR MIT)
 
+from spack.package import *
 from spack.pkg.k4.key4hep_stack import Ilcsoftpackage
-from spack.pkg.k4.key4hep_stack import k4_setup_env_for_framework_tests
 
 
 class Clicperformance(CMakePackage, Ilcsoftpackage):
@@ -19,6 +19,10 @@ class Clicperformance(CMakePackage, Ilcsoftpackage):
     generator = "Ninja"
 
     version("master", branch="master")
+    version(
+        "02-05-01",
+        sha256="dd0b240cdab859b5ee60f0fac834207a2a426840553be39db2050eb51119977f",
+    )
     version(
         "02-05",
         sha256="0205f79914a2422ee8db722ad53cbdc8722cb0867e7b57660ca9ec21fbb4e2ba",
@@ -66,13 +70,10 @@ class Clicperformance(CMakePackage, Ilcsoftpackage):
         env.prepend_path("MARLIN_DLL", self.prefix.lib + "/libClicPerformance.so")
 
     def setup_build_environment(self, env):
-        # k4_setup_env_for_framework_tests(self.spec, env)
         env.prepend_path("ROOT_INCLUDE_PATH", self.spec["lcfiplus"].prefix.include)
         env.prepend_path("LD_LIBRARY_PATH", self.spec["dd4hep"].prefix.lib)
-        env.prepend_path("LD_LIBRARY_PATH", self.spec["dd4hep"].prefix.lib64)
 
     def cmake_args(self):
-        # C++ Standard
         return [f"-DCMAKE_CXX_STANDARD={self.spec['root'].variants['cxxstd'].value}"]
 
     # tests need installation, so skip here ...

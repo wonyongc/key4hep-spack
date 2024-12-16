@@ -3,6 +3,7 @@
 #
 # SPDX-License-Identifier: (Apache-2.0 OR MIT)
 
+from spack.package import *
 from spack.pkg.k4.key4hep_stack import Ilcsoftpackage
 
 
@@ -16,6 +17,14 @@ class Marlinreco(CMakePackage, Ilcsoftpackage):
     maintainers = ["vvolkl"]
 
     version("master", branch="master")
+    version(
+        "1.36.1",
+        sha256="fc97edf00ea943f76340e20ccc57a8538292ed64e7b33b6f64e9ebc7a3da9320",
+    )
+    version(
+        "1.36",
+        sha256="3f0c9839567a58b629b4cba40088b095a6660cbd104d157edf6dd21f81471694",
+    )
     version(
         "1.35",
         sha256="009ea04769776424b203f08c9af75f544b8cd93f379537285e24e3470bb52be8",
@@ -36,6 +45,8 @@ class Marlinreco(CMakePackage, Ilcsoftpackage):
         "1.32",
         sha256="0ea3bee03e2bec1924b5876675043b592a942bc8cf306eb7056eaf03ac1748f6",
     )
+
+    patch("algorithm.patch", when="@:1.36")
 
     depends_on("ilcutil")
     depends_on("marlin")

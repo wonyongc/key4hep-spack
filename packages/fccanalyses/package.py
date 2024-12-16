@@ -1,5 +1,5 @@
+from spack.package import *
 from spack.pkg.k4.key4hep_stack import Key4hepPackage
-from spack.pkg.k4.key4hep_stack import k4_setup_env_for_framework_tests
 
 
 class Fccanalyses(CMakePackage, Key4hepPackage):
@@ -14,6 +14,10 @@ class Fccanalyses(CMakePackage, Key4hepPackage):
     version("master", branch="master")
 
     version(
+        "0.10.0",
+        sha256="a3cf897e1063a7e45fc3fb554c490af8fc2bafee338ae42aeaf455c851798e11",
+    )
+    version(
         "0.9.0",
         sha256="205332e02051039878c026abb7e1d9005fe9f89c1c9d27d575531f006a113570",
     )
@@ -24,10 +28,6 @@ class Fccanalyses(CMakePackage, Key4hepPackage):
     version(
         "0.7.0",
         sha256="3cc38d623fc5a17dfc41b3ef8a76b42bd2e9d74860a4adafb6e32f282d8a25fa",
-    )
-    version(
-        "0.6.0",
-        sha256="a740c1818cc9e02ce44306b9a4f828b3ce85d2afaed1fc06d8f8a41f89f9abe2",
     )
 
     patch(
@@ -45,6 +45,7 @@ class Fccanalyses(CMakePackage, Key4hepPackage):
     variant("onnx", default=True, description="Build ONNX-dependent analyzers.")
     variant("acts", default=False, description="Build Acts-dependent analyzers.")
     variant("dd4hep", default=True, description="Build DD4hep-dependent analyzers.")
+    variant("docs", default=False, description="Build documentation.")
 
     generator = "Ninja"
 
@@ -53,18 +54,19 @@ class Fccanalyses(CMakePackage, Key4hepPackage):
     depends_on("vdt")
     depends_on("fastjet")
     depends_on("python")
+    depends_on("podio")
+    depends_on("podio+datasource", when="@0.10.0:")
     depends_on("edm4hep")
-    depends_on("py-awkward@1.4.0", when="@:0.6.0")
     depends_on("acts", when="+acts")
     depends_on("acts@:29", when="@:0.8.0 +acts")
     depends_on("acts@19.6.0:28", when="@0.7.0 +acts")
-    depends_on("acts@6.00.0:19.5.0", when="@:0.6.0 +acts")
     depends_on("eigen")
     depends_on("dd4hep", when="+dd4hep")
     depends_on("py-pyyaml", type=("build", "run"))
     depends_on("py-onnxruntime", when="+onnx")
     depends_on("delphes@3.5.1pre07:", when="@0.7.0:")
     depends_on("catch2@3:", type=("test"))
+    depends_on("doxygen", type="build", when="+docs")
 
     def cmake_args(self):
         args = [
@@ -72,8 +74,10 @@ class Fccanalyses(CMakePackage, Key4hepPackage):
             self.define_from_variant("WITH_ACTS", "acts"),
             self.define_from_variant("WITH_DD4HEP", "dd4hep"),
             self.define_from_variant("WITH_ONNX", "onnx"),
+            self.define_from_variant("FCCANALYSES_DOCUMENTATION", "docs"),
             self.define("BUILD_TESTING", self.run_tests),
         ]
+
         return args
 
     # todo: update the cmake config to remove this
@@ -85,21 +89,6 @@ class Fccanalyses(CMakePackage, Key4hepPackage):
         if "delphes" in self.spec:
             env.set("DELPHES_DIR", self.spec["delphes"].prefix)
 
-        if self.spec.satisfies("@:0.6.0"):
-            python_version = self.spec["python"].version.up_to(2)
-            awk_lib_dir = self.spec["py-awkward"].prefix.lib
-            awk_pydir = join_path(
-                awk_lib_dir,
-                "python{0}".format(python_version),
-                "site-packages/awkward/include",
-            )
-            env.prepend_path("CPATH", awk_pydir)
-            awk_pydir = join_path(
-                awk_lib_dir, "python{0}".format(python_version), "site-packages"
-            )
-            env.prepend_path("LD_LIBRARY_PATH", awk_pydir)
-        # k4_setup_env_for_framework_tests(self.spec, env)
-
     def setup_run_environment(self, env):
         env.prepend_path("ROOT_INCLUDE_PATH", self.prefix.include.FCCAnalyses)
         env.prepend_path("PYTHONPATH", self.prefix.python)
@@ -108,23 +97,9 @@ class Fccanalyses(CMakePackage, Key4hepPackage):
         #  but we want to make it work with the tutorials
         env.set("FCCANALYSES", self.prefix.python)
         env.prepend_path("LD_LIBRARY_PATH", self.spec["fccanalyses"].prefix.lib)
-        env.prepend_path("LD_LIBRARY_PATH", self.spec["fccanalyses"].prefix.lib64)
         env.set("FCCDICTSDIR", "/cvmfs/fcc.cern.ch/FCCDicts")
-        if self.spec.satisfies("@:0.6.0"):
-            # libawkward.so is in prefix/lib/pythonX.Y/site-packages
-            python_version = self.spec["python"].version.up_to(2)
-            awk_lib_dir = self.spec["py-awkward"].prefix.lib
-            awk_pydir = join_path(
-                awk_lib_dir, "python{0}".format(python_version), "site-packages"
-            )
-            env.prepend_path("CPATH", join_path(awk_pydir, "include"))
-            env.prepend_path("LD_LIBRARY_PATH", awk_pydir)
 
-        if self.spec.variants["onnx"].value:
-            env.prepend_path("LD_LIBRARY_PATH", self.spec["py-onnxruntime"].prefix.lib)
-            env.prepend_path(
-                "LD_LIBRARY_PATH", self.spec["py-onnxruntime"].prefix.lib64
-            )
+        env.prepend_path("ROOT_LIBRARY_PATH", self.spec["fastjet"].libs.directories[0])
 
     # tests need installation, so skip here ...
     def check(self):

@@ -3,6 +3,7 @@
 #
 # SPDX-License-Identifier: (Apache-2.0 OR MIT)
 
+from spack.package import *
 from spack.pkg.k4.key4hep_stack import Ilcsoftpackage
 
 
@@ -16,6 +17,10 @@ class Marlin(CMakePackage, Ilcsoftpackage):
     maintainers = ["vvolkl"]
 
     version("master", branch="master")
+    version(
+        "1.19.3",
+        sha256="b581e4e80b67979e3dae9b2c926848e3de005f30e6193ee6b3b6e746e8ae6b6b",
+    )
     version(
         "1.19.2",
         sha256="13e51a1d46540df55596853612c13314860f8299e4caf356e2070780ecddc7c2",

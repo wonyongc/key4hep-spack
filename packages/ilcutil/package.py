@@ -3,6 +3,7 @@
 #
 # SPDX-License-Identifier: (Apache-2.0 OR MIT)
 
+from spack.package import *
 from spack.pkg.k4.key4hep_stack import Ilcsoftpackage
 
 
@@ -16,6 +17,10 @@ class Ilcutil(CMakePackage, Ilcsoftpackage):
     maintainers = ["vvolkl"]
 
     version("master", branch="master")
+    version(
+        "1.7.3",
+        sha256="77ae96bf9b4ceda382a57048a7a6b0ab5e9120ac3f14ffd10441c9e44684f35b",
+    )
     version(
         "1.7.2",
         sha256="d909a575cc8be7d52446f58f1cc7be8eb5112a977b01c69c5e0d7c0b5cf8cdfb",
