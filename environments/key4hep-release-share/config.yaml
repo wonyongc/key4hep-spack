@@ -2,4 +2,4 @@ config:
   install_tree:
     projections:
       all: "{name}/{version}"
-    root: /cvmfs/sw.hsf.org/key4hep/share
+    root: /home/wonyongc/src/hep/key4hep-spack/share
