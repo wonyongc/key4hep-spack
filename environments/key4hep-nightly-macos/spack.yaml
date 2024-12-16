@@ -1,5 +1,5 @@
 spack:
-  view: true
+  view: false
   include:
   - ../key4hep-common/config-nightlies.yaml
   - ./packages.yaml
