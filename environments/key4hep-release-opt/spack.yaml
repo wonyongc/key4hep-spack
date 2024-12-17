@@ -12,4 +12,5 @@ spack:
   repos:
   - ../..
   specs:
-  - key4hep-stack
+  - key4hep-stack+devtools
+  - lcio
