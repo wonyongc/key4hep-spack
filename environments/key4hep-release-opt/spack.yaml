@@ -14,3 +14,4 @@ spack:
   specs:
   - key4hep-stack+devtools
   - lcio
+  - geant4-data@11.2.2
